@@ -1,6 +1,6 @@
 {
   "name": "jsqr",
-  "version": "1.0.1",
+  "version": "1.4.0",
   "description": "A pure javascript QR code reading library that takes in raw images and will locate, extract and parse any QR code found within.",
   "repository": "https://github.com/cozmo/jsQR",
   "main": "./dist/jsQR.js",
@@ -22,8 +22,9 @@
     "@types/node": "^8.0.27",
     "awesome-typescript-loader": "^3.2.3",
     "fs-extra": "^4.0.1",
-    "jest": "^20.0.4",
-    "ts-jest": "^20.0.14",
+    "jest": "^23.1.0",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^23.0.4",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
@@ -31,11 +32,12 @@
     "webpack": "^3.10.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack",
-    "watch": "./node_modules/.bin/webpack --watch",
-    "test": "./node_modules/.bin/jest",
+    "prebuild": "rimraf dist",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "test": "jest",
     "lint": "tslint --project .",
-    "generate-test-data": "node_modules/.bin/ts-node --project tests/ tests/generate-test-data.ts"
+    "generate-test-data": "ts-node --project tests/ tests/generate-test-data.ts"
   },
   "jest": {
     "testRegex": ".*test.ts",
@@ -45,6 +47,15 @@
     ],
     "transform": {
       "^.+\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "noImplicitAny": false,
+          "lib": ["es2015"],
+          "types": ["jest", "node"]
+        }
+      }
     }
   }
 }
